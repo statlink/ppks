@@ -1,0 +1,54 @@
+\name{lepage}
+\alias{lepage}
+\title{
+LePage type tests
+}
+
+\description{
+LePage type tests
+}
+
+\usage{
+lepage(x, y)
+}
+
+\arguments{
+\item{x}{
+A numerical vector with data.
+}
+\item{y}{
+A numerical vector with data.
+}
+}
+
+\details{
+The \eqn{K}--means algorithm is performed and a series of cluster validity indices are computed.
+}
+
+\value{
+A matrix with 6 columns and two rows. The first row refers to the 6 test statistics and the second row to their corresponding p-values.
+}
+
+\references{
+Garcia-Escudero Luis A., Gordaliza Alfonso, Matran Carlos, Mayo-Iscar Agustin. (2008). A general
+trimming approach to robust cluster analysis. Annals of Statistics 36(3): 1324--1345.
+}
+
+\author{
+Abid Hussain and Michail Tsagris.
+
+R implementation and documentation: Abid Hussain \email{abid0100@gmail.com} and Michail Tsagris \email{mtsagris@uoc.gr}.
+
+}
+
+%\note{
+%%  ~~further notes~~
+%}
+
+
+\examples{
+x <- rnorm(30)
+y <- rnorm(40)
+lepage(x, y)
+}
+

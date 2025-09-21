@@ -1,0 +1,7 @@
+#useDynLib(Compositional, .registration = TRUE)
+
+importFrom("Rfast", Sort, colSort)
+importFrom("stats", rbinom)
+
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")

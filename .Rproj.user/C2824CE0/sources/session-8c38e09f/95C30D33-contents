@@ -1,0 +1,7 @@
+#useDynLib(Compositional, .registration = TRUE)
+
+importFrom("Rfast", Var, Rank, Order)
+importFrom("stats", ecdf, pchisq)
+
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")

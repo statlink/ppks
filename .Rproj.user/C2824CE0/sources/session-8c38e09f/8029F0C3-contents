@@ -1,0 +1,64 @@
+x <- rnorm(30)
+y <- rnorm(40)
+
+lepage <- function(x, y) {
+  m <- length(x)
+  n <- length(y)
+  N <- m + n
+  z <- c(x, y)
+  z1 <- Rfast::Rank(z)
+  z2 <- z1[ (m + 1):N ]
+  W <- sum(z2)
+  U <- ( W - 0.5 * n * (n + 1) ) / (m * n)
+  V <- 1/12 * ( 1/m + 1/n + 1 / (m * n) )
+  t0 <- ( U - 0.5 ) / sqrt(V)
+  small <- Rfast::Order(z)[ 1:(N/2) ]
+  ranks <- rep(NA, N)
+  ranks[small] <- rank( z[small] )
+  large <- Rfast::Order(z, decreasing = TRUE)[ 1:(N/2) ]
+  ranks[large] <- Rfast::Rank( -z[large] )
+  R <- ranks
+  R1 <- R[ (m + 1):N ]
+  D <- sum(R1)
+  men <- n * (N + 2) / 4
+  s <- sqrt( m * n * (N + 2) * (N - 2) / ( 48 * (N - 1) ) )
+  C0 <- (D - men) / s
+  L0 <- t0^2 + C0^2
+  ##############
+  f <- ecdf(x)  ;  g <- ecdf(y)
+  gx <- g(x)  ;  fy <- f(y)
+  com <- mean(gx) * mean(fy) / (m * n)
+  vgx <- Rfast::Var(gx)  ;  vfy <- Rfast::Var( f(y) )
+  V1 <- ( 1 - 1/m ) / m * vgx + (1 - 1/n) / n * vfy + com
+  t1 <- (U - 0.5) / sqrt(V1)
+  ##### for C
+  C1 <- (D - men) / s
+  L1 <- t1^2 + C1^2
+  ##############
+  V2 <- ( 1 - 1/n) / m * vgx + (1 - 1/m ) / n * vfy + com
+  t2 <- (U - 0.5) / sqrt(V2)
+  ##### for C
+  C2 <- C1
+  L2 <- t2^2 + C2^2
+  ##############
+  t3 <- t0
+  s1 <- sqrt( n * (N - n)/N * var(R1) )
+  C3 <- (D - men) / s1
+  L3 <- t3^2 + C3^2
+  ##############
+  t4 <- t1
+  C4 <- C3
+  L4 <- t4^2 + C4^2
+  ##############
+  t5 <- t2
+  C5 <- C3
+  L5 <- t5^2 + C5^2
+  ##############
+  statistic <- c(L0, L1, L2, L3, L4, L5)
+  pvalue <- pchisq(statistic, 2, lower.tail = FALSE)
+  res <- rbind(statistic, pvalue)
+  colnames(res) <- c("L0", "L1", "L2", "L3", "L4", "L5")
+  res
+}
+
+
